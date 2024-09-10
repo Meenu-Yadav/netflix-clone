@@ -6,8 +6,12 @@ import { API_END_POINT } from "../utils/constants";
 import { setUser } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { toggleSearch } from "../redux/movieSlice";
+
 const Header = () => {
   const user = useSelector((store) => store.app.user);
+  const toggle = useSelector((store) => store.movie.toggleSearch);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutHandler = async () => {
@@ -22,7 +26,9 @@ const Header = () => {
       console.log(error);
     }
   };
-  console.log(user);
+  const toggleSearchHandler = () => {
+    dispatch(toggleSearch());
+  };
   return (
     <div className="absolute z-10 flex items-center w-[100vw] px-6 justify-between bg-gradient-to-b from-black">
       <img
@@ -41,8 +47,11 @@ const Header = () => {
             >
               Logout
             </button>
-            <button className="bg-red-700 text-white px-4 py-2 ml-2 ">
-              Search
+            <button
+              onClick={toggleSearchHandler}
+              className="bg-red-700 text-white px-4 py-2 ml-2 "
+            >
+              {toggle ? "Home" : "Search"}
             </button>
           </div>
         </div>
